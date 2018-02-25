@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const AnimalSchema = mongoose.Schema({
-  img: {
+  animalImg: {
     type: String,
     required: false
   },
@@ -9,15 +9,11 @@ const AnimalSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  class: {
-    type: String,
-    required: true
-  },
   species: {
     type: String,
     required: true
   },
-  bread: {
+  breed: {
     type: String,
     required: false
   },
@@ -34,11 +30,10 @@ const AnimalSchema = mongoose.Schema({
 AnimalSchema.methods.serialize = function() {
   return {
     id: this._id,
-    img: this.img,
+    animalImg: this.animalImg,
     name: this.name,
-    class: this.class,
     species: this.species,
-    bread: this.bread,
+    breed: this.breed,
     dateReceived: this.dateReceived,
     age: this.age
   };
