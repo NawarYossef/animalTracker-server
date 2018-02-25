@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const AnimalSchema = mongoose.Schema({
-  animalImges: {
+  animalImg: {
     type: String,
     required: false
   },
