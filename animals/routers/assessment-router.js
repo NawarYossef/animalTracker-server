@@ -5,7 +5,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
-const { Animal } = require("./models/animal");
+const { Animal } = require("../models/animal");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
 router.use(jsonParser);
@@ -101,4 +101,4 @@ router.use(jsonParser);
 //     .catch(err => res.status(500).json({ message: "Internal server error" }));
 // });
 
-module.exports = {router};
+module.exports = router;
