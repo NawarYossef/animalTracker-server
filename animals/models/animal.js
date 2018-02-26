@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const Behavior = require("./behavior")
+const Assessment = require("./assessment")
 
 const AnimalSchema = mongoose.Schema({
   animalImg: {
@@ -25,6 +27,14 @@ const AnimalSchema = mongoose.Schema({
     type: Number,
     required: true
   },
+  assessment: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Assessment'
+  }],
+  behavior: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Behavior'
+  }]
 });
 
 AnimalSchema.methods.serialize = function() {

@@ -5,11 +5,11 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
-const { Animal } = require("./model");
+const { Animal } = require("./models/animal");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
 router.use(jsonParser);
-
+  
 // ============== GET endpoint ==============
 // router.get("/", jwtAuth, (req, res) => {
 //   Trip.find({ user: req.user.id })
