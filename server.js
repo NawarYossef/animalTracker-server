@@ -1,25 +1,23 @@
+import { Behavior } from '../animalTracker-client/src/components/pages/animal-components/behavior';
+
 'use strict';
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
+const bodyParser = require("body-parser");
 
-// Here we use destructuring assignment with renaming so the two variables
-// called router (from ./users and ./auth) have different names
-// For example:
-// const actorSurnames = { james: "Stewart", robert: "De Niro" };
-// const { james: jimmy, robert: bobby } = actorSurnames;
-// console.log(jimmy); // Stewart - the variable name is jimmy, not james
-// console.log(bobby); // De Niro - the variable name is bobby, not robert
 const { router: usersRouter } = require('./users');
+const animalRouter  = require('./animals/routers/animal-router');
+const behaviorRouter  = require('./animals/routers/behavior-router');
+const assessmentRouter  = require('./animals/routers/assessment-router');
+
+const { PORT, DATABASE_URL } = require("./config");
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 
-mongoose.Promise = global.Promise;
-
-const { PORT, DATABASE_URL } = require('./config');
-
 const app = express();
+mongoose.Promise = global.Promise;
 
 // Logging
 app.use(morgan('common'));
@@ -35,11 +33,17 @@ app.use(function (req, res, next) {
   next();
 });
 
+//  MIDDLEWARE
+app.use(bodyParser.json());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
+// ROUTES
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
+app.use('/animal/', animalRouter);
+app.use('/behavior/', behaviorRouter);
+app.use('/assessment/', assessmentRouter);
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
