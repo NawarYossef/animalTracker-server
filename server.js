@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const passport = require("passport");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const { router: usersRouter } = require("./users");
 const { router: authRouter, localStrategy, jwtStrategy } = require("./auth");
@@ -13,7 +14,7 @@ const animalRouter = require("./animals/routers/animal-router");
 const behaviorRouter = require("./animals/routers/behavior-router");
 const assessmentRouter = require("./animals/routers/assessment-router");
 
-const { PORT, DATABASE_URL } = require("./config");
+const { PORT, DATABASE_URL, CLIENT_ORIGIN } = require("./config");
 
 const app = express();
 mongoose.Promise = global.Promise;
@@ -22,15 +23,11 @@ mongoose.Promise = global.Promise;
 app.use(morgan("common"));
 
 // CORS
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
-  if (req.method === "OPTIONS") {
-    return res.send(204);
-  }
-  next();
-});
+app.use(
+  cors({
+      origin: CLIENT_ORIGIN
+  })
+);
 
 //  MIDDLEWARE
 app.use(bodyParser.json());
